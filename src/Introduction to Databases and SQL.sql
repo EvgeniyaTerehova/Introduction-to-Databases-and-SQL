@@ -87,17 +87,18 @@ VALUES ('Nikolay', 'Tuchkov', 'man', 41);
    SELECT 'Nikolay' AS 'Klim'
     FROM employee
     WHERE id = 3;
-2. Посчитайте суммарный возраст для каждого имени. Выведите в двух столбцах «имя» и «суммарный возраст».
-    Спасибо, делал так:
-    SELECT Имя, sum(age) AS Суммарный_возраст
+2. Посчитайте суммарный возраст для каждого имени. Выведите в двух столбцах "имя" и "суммарный возраст".
+    SELECT first_name AS Имя, sum(age) AS Суммарный_возраст
     FROM employee
     WHERE Имя = 'Nikolay'
     OR Имя = 'Klim'
     GROUP BY Имя, age;
 3. Выведите имя и самый юный возраст, соответствующий имени.
-    SELECT Имя, min(age)
-    FROM employee;
+    SELECT first_name AS Имя, age
+    FROM employee
+    WHERE age = (SELECT MIN(age) FROM employee);
 4. Выведите имя и максимальный возраст только для неуникальных имен. Результат отсортируйте по возрасту в порядке возрастания.
-    SELECT Имя, max(age)
-    FROM employee;
+    SELECT first_name AS Имя, age
+    FROM employee
+    WHERE age in (SELECT MAX(age) FROM employee GROUP BY first_name HAVING COUNT(first_name) > 1) ORDER BY 2;
         
